@@ -1,3 +1,9 @@
+# Target
+nbody
+
+# Sconstruct options
+.sconsign.dblite
+
 # Compiled Object files
 *.slo
 *.lo
