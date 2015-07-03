@@ -8,9 +8,12 @@
  */
 
 #include "cube.h"
+
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <iostream>
+
 
 namespace cube
 {
@@ -58,6 +61,42 @@ namespace cube
             std::cout << "vy = " << _xvParticles[6*np+4] << std::endl ;
             std::cout << "vz = " << _xvParticles[6*np+5] << std::endl ;
         }
+    }
+
+
+    int Cube::writeParticleList(const char *fileName)
+    {
+        FILE *file ;
+        file = fopen(fileName, "wb") ;
+
+        if (!file)
+        {
+            std::cout << "Could not open file " << fileName << std::endl ;
+            return EXIT_FAILURE ;
+        }
+
+        // write number of particles
+        int written = fwrite(&_nParticles, sizeof(int), 1, file) ;
+        bool correctOutput = ( written == 1 ) ;
+
+        // write xv particles array
+        written = fwrite(_xvParticles, sizeof(double), 6*_nParticles, file) ;
+        correctOutput &= ( written == 6 * _nParticles ) ;
+
+        if (!correctOutput)
+        {
+            std::cout << "Could not write to file " << fileName << std::endl ;
+            return EXIT_FAILURE ;
+        }
+
+        fclose(file) ;
+        std::cout << "Written file " << fileName << std::endl ;
+        return EXIT_SUCCESS ;
+    }
+
+    int Cube::writeParticleList(const std::string &fileName)
+    {
+        return writeParticleList(fileName.c_str()) ;
     }
 
     void Cube::initializeRandomParticles()

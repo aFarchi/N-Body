@@ -4,6 +4,9 @@ nbody
 # Sconstruct options
 .sconsign.dblite
 
+# vim temp files
+.swp
+
 # Compiled Object files
 *.slo
 *.lo
