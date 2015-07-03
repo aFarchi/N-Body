@@ -14,13 +14,15 @@
 #include <time.h>
 #include <iostream>
 
+#include "../patch/toString.h"
 
 namespace cube
 {
-    Cube::Cube(int nGrid, int nParticles, double cubeLength) :
+    Cube::Cube(int nGrid, int nParticles, double cubeLength, const std::string &log) :
         _nGrid(nGrid),
         _nParticles(nParticles),
-        _cubeLength(cubeLength)
+        _cubeLength(cubeLength),
+        _log(log)
     {
         
         // initializes random seed
@@ -41,25 +43,25 @@ namespace cube
 
     void Cube::printParameters()
     {
-        std::cout << "_________________________" << std::endl ;
-        std::cout << "Cube with parameters :" << std::endl ;
-        std::cout << "nGrid      = " << _nGrid << std::endl ;
-        std::cout << "nParticles = " << _nParticles << std::endl ;
-        std::cout << "cubeLength = " << _cubeLength << std::endl ;
+        _log.printMessage(std::string("_________________________"), true) ;
+        _log.printMessage(std::string("Cube with parameters :"), true) ;
+        _log.printMessage(std::string("nGrid      = ")+patch::to_string(_nGrid), true) ;
+        _log.printMessage(std::string("nParticles = ")+patch::to_string(_nParticles), true) ;
+        _log.printMessage(std::string("cubeLength = ")+patch::to_string(_cubeLength), true) ;
     }
 
     void Cube::printParticleList()
     {
         for ( int np = 0 ; np < _nParticles ; np++ )
         {
-            std::cout << "_________________________" << std::endl ;
-            std::cout << "particule #" << np << std::endl ;
-            std::cout << "x  = " << _xvParticles[6*np]   << std::endl ;
-            std::cout << "y  = " << _xvParticles[6*np+1] << std::endl ;
-            std::cout << "z  = " << _xvParticles[6*np+2] << std::endl ;
-            std::cout << "vx = " << _xvParticles[6*np+3] << std::endl ;
-            std::cout << "vy = " << _xvParticles[6*np+4] << std::endl ;
-            std::cout << "vz = " << _xvParticles[6*np+5] << std::endl ;
+            _log.printMessage(std::string("_________________________"), true) ;
+            _log.printMessage(std::string("particule #")+patch::to_string(np), true) ; 
+            _log.printMessage(std::string("x  = ")+patch::to_string(_xvParticles[6*np]), true) ;
+            _log.printMessage(std::string("y  = ")+patch::to_string(_xvParticles[6*np+1]), true) ;
+            _log.printMessage(std::string("z  = ")+patch::to_string(_xvParticles[6*np+2]), true) ;
+            _log.printMessage(std::string("vx = ")+patch::to_string(_xvParticles[6*np+3]), true) ;
+            _log.printMessage(std::string("vy = ")+patch::to_string(_xvParticles[6*np+4]), true) ;
+            _log.printMessage(std::string("vz = ")+patch::to_string(_xvParticles[6*np+5]), true) ;
         }
     }
 
@@ -71,7 +73,7 @@ namespace cube
 
         if (!file)
         {
-            std::cout << "Could not open file " << fileName << std::endl ;
+            _log.printMessage(std::string("Could not open file ")+std::string(fileName), true) ;
             return EXIT_FAILURE ;
         }
 
@@ -85,12 +87,12 @@ namespace cube
 
         if (!correctOutput)
         {
-            std::cout << "Could not write to file " << fileName << std::endl ;
+            _log.printMessage(std::string("Could not write to file ")+std::string(fileName), true) ;
             return EXIT_FAILURE ;
         }
 
         fclose(file) ;
-        std::cout << "Written file " << fileName << std::endl ;
+        _log.printMessage(std::string("Written file ")+std::string(fileName), true) ;
         return EXIT_SUCCESS ;
     }
 

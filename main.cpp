@@ -16,8 +16,9 @@ int main(int argc, char* argv[])
     double cubeLength = 100 ;
 
     std::string fileName   = "/Users/Alban/Desktop/test.bin" ;
+    std::string logFile    = "/Users/Alban/Desktop/logTest.txt" ;
 
-    cube::Cube c = cube::Cube(nGrid, nParticles, cubeLength) ;
+    cube::Cube c = cube::Cube(nGrid, nParticles, cubeLength, logFile) ;
     c.printParameters() ;
     c.printParticleList() ;
     c.writeParticleList(fileName) ;
