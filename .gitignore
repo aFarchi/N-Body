@@ -5,7 +5,7 @@ nbody
 .sconsign.dblite
 
 # vim temp files
-.swp
+*.swp
 
 # Compiled Object files
 *.slo

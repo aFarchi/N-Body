@@ -1,3 +1,12 @@
+
+/*__________________________________________________
+ * logFile.cpp
+ *__________________________________________________
+ *
+ * implementation of class LogFile
+ *
+ */
+
 #include "logfile.h"
 #include <iostream>
 
@@ -46,20 +55,40 @@ namespace output
         if (_open)
         {
             fwrite(message.c_str(), sizeof(char), message.size(), _file) ;
-
-            if (endLine)
-            {
-                fwrite("\n", sizeof(char), 1, _file) ;
-            }
         }
         else
         {
             std::cout << message ;
-            if (endLine)
-            {
-                std::cout << std::endl ;
-            }
         }
+
+        if (endLine)
+        {
+            newLine() ;
+        }
+    }
+    
+    void LogFile::newLine()
+    {
+        if (_open)
+        {
+            fwrite("\n", sizeof(char), 1, _file) ;
+        }
+        else
+        {
+            std::cout << std::endl ;
+        }
+    }
+
+    void LogFile::separator(int length, const char symbol, bool endLine)
+    {
+        std::string message = "" ;
+        
+        for ( int i = 0 ; i < length ; i++ )
+        {
+            message += symbol ;
+        }
+
+        printMessage(message, endLine) ;
     }
 }
 

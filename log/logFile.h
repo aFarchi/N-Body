@@ -21,8 +21,10 @@ namespace output
             LogFile(const std::string &fileName) ;
             ~LogFile() ;
 
-            void printMessage(const std::string &message, bool endLine=false) ;
-            
+            void printMessage(const std::string &message, bool endLine = false) ;
+            void newLine() ;
+            void separator(int length = 50, const char symbol = '_', bool endLine = true) ;
+
         private:
             void open(const char *fileName) ;
             bool _open ;
