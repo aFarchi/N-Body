@@ -81,6 +81,11 @@ namespace output
 
     void LogFile::separator(int length, const char symbol, bool endLine)
     {
+        if (endLine)
+        {
+            newLine() ;
+        }
+
         std::string message = "" ;
         
         for ( int i = 0 ; i < length ; i++ )
@@ -88,7 +93,7 @@ namespace output
             message += symbol ;
         }
 
-        printMessage(message, endLine) ;
+        printMessage(message, true) ;
     }
 }
 

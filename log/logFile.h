@@ -23,7 +23,7 @@ namespace output
 
             void printMessage(const std::string &message, bool endLine = false) ;
             void newLine() ;
-            void separator(int length = 50, const char symbol = '_', bool endLine = true) ;
+            void separator(int length = 50, const char symbol = '_', bool endLine = false) ;
 
         private:
             void open(const char *fileName) ;

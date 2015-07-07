@@ -12,6 +12,7 @@
 
 #include <string>
 #include "../log/logFile.h"
+#include <fftw3.h>
 
 namespace cube
 {
@@ -36,6 +37,11 @@ namespace cube
             double *_xvParticles ;
 
             const double _cubeLength ;
+
+            double *_realField ;
+            fftw_complex *_complexField ;
+            fftw_plan _forwardFT ;
+            fftw_plan _backwardFT ;
     } ;
 
 }

@@ -24,6 +24,8 @@ namespace cube
         _cubeLength(cubeLength),
         _log(log)
     {
+        _log.separator() ;
+        _log.printMessage(std::string("Initializing cube..."), true) ;
         
         // initializes random seed
         srand(time(NULL)) ;
@@ -33,17 +35,42 @@ namespace cube
 
         // initializes xv particles array
         initializeRandomParticles() ;
+
+        _log.printMessage(std::string("Preparing Fourier Transformations..."), true) ;
+        
+        // Allocate Fields array
+        int realSize = _nGrid * _nGrid * _nGrid ;
+        int complexSize = _nGrid * _nGrid * ( _nGrid/2 + 1 ) ;
+        _realField = (double*) fftw_malloc(sizeof(double) * realSize) ;
+        _complexField = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * complexSize ) ;
+
+        // Prepare Fourier Transformations
+        unsigned flags = FFTW_MEASURE ;
+        _forwardFT  = fftw_plan_dft_r2c_3d(_nGrid, _nGrid, _nGrid, _realField, _complexField, flags) ;
+        _backwardFT = fftw_plan_dft_c2r_3d(_nGrid, _nGrid, _nGrid, _complexField, _realField, flags) ;
+        _log.separator() ;
     }
 
     Cube::~Cube()
     {
+        _log.separator(50, '=', true) ;
+        _log.printMessage(std::string("Destroying cube..."), true) ;
         // free xv particles array
         delete _xvParticles ;
+
+        // free FFTW plans
+        fftw_destroy_plan(_forwardFT) ;
+        fftw_destroy_plan(_backwardFT) ;
+
+        // free fields array 
+        fftw_free(_realField) ;
+        fftw_free(_complexField) ;
+        _log.separator() ;
     }
 
     void Cube::printParameters()
     {
-        _log.printMessage(std::string("_________________________"), true) ;
+        _log.separator() ;
         _log.printMessage(std::string("Cube with parameters :"), true) ;
         _log.printMessage(std::string("nGrid      = ")+patch::to_string(_nGrid), true) ;
         _log.printMessage(std::string("nParticles = ")+patch::to_string(_nParticles), true) ;
@@ -54,7 +81,7 @@ namespace cube
     {
         for ( int np = 0 ; np < _nParticles ; np++ )
         {
-            _log.printMessage(std::string("_________________________"), true) ;
+            _log.separator() ;
             _log.printMessage(std::string("particule #")+patch::to_string(np), true) ; 
             _log.printMessage(std::string("x  = ")+patch::to_string(_xvParticles[6*np]), true) ;
             _log.printMessage(std::string("y  = ")+patch::to_string(_xvParticles[6*np+1]), true) ;
