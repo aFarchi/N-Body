@@ -7,8 +7,8 @@
  *
  */
 
-#ifndef CUBE
-#define CUBE
+#ifndef CUBE_H
+#define CUBE_H
 
 #include <string>
 #include "../log/logFile.h"
@@ -16,6 +16,7 @@
 
 namespace cube
 {
+    template <typename DensityBuilder>
     class Cube
     {
         public:
@@ -28,20 +29,26 @@ namespace cube
             int writeParticleList(const char *fileName) ;
             int writeParticleList(const std::string &fileName) ;
 
+            int writeDensityField(const char *fileName) ;
+            int writeDensityField(const std::string &fileName) ;
+
+            void computeDensityField() ;
+
         private:
             void initializeRandomParticles() ;
 
+            DensityBuilder  _densityBuilder ;
             output::LogFile _log ;
-            const int _nGrid ;
-            const int _nParticles ;
-            double *_xvParticles ;
+            const int       _nGrid ;
+            const int       _nParticles ;
+            double         *_xvParticles ;
 
-            const double _cubeLength ;
+            const double    _cubeLength ;
 
-            double *_realField ;
-            fftw_complex *_complexField ;
-            fftw_plan _forwardFT ;
-            fftw_plan _backwardFT ;
+            double         *_realField ;
+            fftw_complex   *_complexField ;
+            fftw_plan       _forwardFT ;
+            fftw_plan       _backwardFT ;
     } ;
 
 }

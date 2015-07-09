@@ -29,13 +29,16 @@ cpp_path  = []
 #__________
 
 # Small Patch for strings
-src      += ['patch/toString.h']
+src      += ['patch/toString.cpp']
 
 # Class to use a log file
 src      += ['log/logFile.cpp']
 
 # Class cube
 src      += ['cube/cube.cpp']
+
+# Class NGPDensity
+src      += ['cube/density/ngp.cpp']
 
 # FFTW library [must be the last one]
 lib      += ['fftw3', 'm']

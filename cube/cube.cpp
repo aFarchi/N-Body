@@ -7,6 +7,9 @@
  *
  */
 
+#ifndef CUBE_CPP
+#define CUBE_CPP
+
 #include "cube.h"
 
 #include <stdio.h>
@@ -14,15 +17,17 @@
 #include <time.h>
 #include <iostream>
 
-#include "../patch/toString.h"
+#include "../patch/toString.cpp"
 
 namespace cube
 {
-    Cube::Cube(int nGrid, int nParticles, double cubeLength, const std::string &log) :
+    template <typename DensityBuilder>
+    Cube<DensityBuilder>::Cube(int nGrid, int nParticles, double cubeLength, const std::string &log) :
+        _densityBuilder(nGrid, cubeLength),
+        _log(log),
         _nGrid(nGrid),
         _nParticles(nParticles),
-        _cubeLength(cubeLength),
-        _log(log)
+        _cubeLength(cubeLength)
     {
         _log.separator() ;
         _log.printMessage(std::string("Initializing cube..."), true) ;
@@ -51,7 +56,8 @@ namespace cube
         _log.separator() ;
     }
 
-    Cube::~Cube()
+    template <typename DensityBuilder>
+    Cube<DensityBuilder>::~Cube()
     {
         _log.separator(50, '=', true) ;
         _log.printMessage(std::string("Destroying cube..."), true) ;
@@ -68,7 +74,8 @@ namespace cube
         _log.separator() ;
     }
 
-    void Cube::printParameters()
+    template <typename DensityBuilder>
+    void Cube<DensityBuilder>::printParameters()
     {
         _log.separator() ;
         _log.printMessage(std::string("Cube with parameters :"), true) ;
@@ -77,7 +84,8 @@ namespace cube
         _log.printMessage(std::string("cubeLength = ")+patch::to_string(_cubeLength), true) ;
     }
 
-    void Cube::printParticleList()
+    template <typename DensityBuilder>
+    void Cube<DensityBuilder>::printParticleList()
     {
         for ( int np = 0 ; np < _nParticles ; np++ )
         {
@@ -92,8 +100,8 @@ namespace cube
         }
     }
 
-
-    int Cube::writeParticleList(const char *fileName)
+    template <typename DensityBuilder>
+    int Cube<DensityBuilder>::writeParticleList(const char *fileName)
     {
         FILE *file ;
         file = fopen(fileName, "wb") ;
@@ -123,12 +131,14 @@ namespace cube
         return EXIT_SUCCESS ;
     }
 
-    int Cube::writeParticleList(const std::string &fileName)
+    template <typename DensityBuilder>
+    int Cube<DensityBuilder>::writeParticleList(const std::string &fileName)
     {
         return writeParticleList(fileName.c_str()) ;
     }
 
-    void Cube::initializeRandomParticles()
+    template <typename DensityBuilder>
+    void Cube<DensityBuilder>::initializeRandomParticles()
     {
         for (int np = 0 ; np < _nParticles ; np++)
         {
@@ -145,4 +155,50 @@ namespace cube
             }
         }
     }
+
+    template <typename DensityBuilder>
+    int Cube<DensityBuilder>::writeDensityField(const char *fileName)
+    {
+        FILE *file ;
+        file = fopen(fileName, "wb") ;
+
+        if (!file)
+        {
+            _log.printMessage(std::string("Could not open file ")+std::string(fileName), true) ;
+            return EXIT_FAILURE ;
+        }
+
+        // write nGrid
+        int  written       = fwrite(&_nGrid, sizeof(int), 1, file) ;
+        bool correctOutput = ( written == 1 ) ;
+
+        // write density field
+        written            = fwrite(_realField, sizeof(double), _nGrid*_nGrid*_nGrid, file) ;
+        correctOutput     &= ( written == _nGrid*_nGrid*_nGrid ) ;
+
+        if (!correctOutput)
+        {
+            _log.printMessage(std::string("Could not write to file ")+std::string(fileName), true) ;
+            return EXIT_FAILURE ;
+        }
+
+        fclose(file) ;
+        _log.printMessage(std::string("Written file ")+std::string(fileName), true) ;
+        return EXIT_SUCCESS ;
+    }
+
+    template <typename DensityBuilder>
+    int Cube<DensityBuilder>::writeDensityField(const std::string &fileName)
+    {
+        return writeDensityField(fileName.c_str()) ;
+    }
+
+    template <typename DensityBuilder>
+    void Cube<DensityBuilder>::computeDensityField()
+    {
+        _densityBuilder.computeDensityField(_xvParticles, _realField, _nParticles) ;
+    }
 }
+
+#endif
+
