@@ -20,7 +20,7 @@ namespace cube
     class Cube
     {
         public:
-            Cube(int nGrid, int nParticles, double cubeLength, const std::string &log="screen") ;
+            Cube(int nGrid, int nParticles, double cubeLength, const std::string &log="screen", double pi=3.14159265) ;
             ~Cube() ;
 
             void printParameters() ;
@@ -32,10 +32,13 @@ namespace cube
             int writeDensityField(const char *fileName) ;
             int writeDensityField(const std::string &fileName) ;
 
+            void timeStep(double factor=1.0) ;
+
             void computeDensityField() ;
 
         private:
             void initializeRandomParticles() ;
+            void initializeForceKernel() ;
 
             DensityBuilder  _densityBuilder ;
             output::LogFile _log ;
@@ -49,6 +52,12 @@ namespace cube
             fftw_complex   *_complexField ;
             fftw_plan       _forwardFT ;
             fftw_plan       _backwardFT ;
+
+            double         *_forceKernel ;
+            double          _pi ;
+            double         *_forceFieldX ;
+            double         *_forceFieldY ;
+            double         *_forceFieldZ ;
     } ;
 
 }

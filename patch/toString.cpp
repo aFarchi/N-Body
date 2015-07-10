@@ -7,13 +7,15 @@
  *
  */
 
+#ifndef TOSTRING_CPP
+#define TOSTRING_CPP
+
 #include <string>
 #include <sstream>
 
 namespace patch
 {
     template < typename T >
-
     std::string to_string(const T& n)
     {
         std::ostringstream stm ;
@@ -21,3 +23,5 @@ namespace patch
         return stm.str() ;
     }
 }
+
+#endif
