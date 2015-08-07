@@ -250,6 +250,8 @@ namespace cube
         {
             _complexField[i][0] /= _forceKernel[i] ;
             _complexField[i][1] /= _forceKernel[i] ;
+            _complexField[i][0] *= factor ;
+            _complexField[i][1] *= factor ;
         }
 
         //_log.printMessage(std::string("FFT Backward"), true) ;
@@ -327,9 +329,9 @@ namespace cube
             _xvParticles[6*np+4] += _forceFieldY[i*_nGrid*_nGrid+j*_nGrid+k] ;
             _xvParticles[6*np+5] += _forceFieldZ[i*_nGrid*_nGrid+j*_nGrid+k] ;
         
-            _xvParticles[6*np  ] += factor * _xvParticles[6*np+3] ; 
-            _xvParticles[6*np+1] += factor * _xvParticles[6*np+4] ; 
-            _xvParticles[6*np+2] += factor * _xvParticles[6*np+5] ; 
+            _xvParticles[6*np  ] += _xvParticles[6*np+3] ; 
+            _xvParticles[6*np+1] += _xvParticles[6*np+4] ; 
+            _xvParticles[6*np+2] += _xvParticles[6*np+5] ; 
         }
 
         //_log.printMessage(std::string("Send particles"), true) ;

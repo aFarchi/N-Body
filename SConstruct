@@ -13,6 +13,16 @@ flags['CCFLAGS'] = ['-Wall', '-Wextra']
 
 env.MergeFlags(flags)
 
+#__________________________
+# Preprocessors definitions
+#__________________________
+
+
+cpp_defines  = []
+#cpp_defines += ['DEN_NGP']
+cpp_defines += ['DEN_CIC']
+env.Append(CPPDEFINES=cpp_defines)
+
 #______________
 # Target N-BODY
 #______________
@@ -34,11 +44,16 @@ src      += ['patch/toString.cpp']
 # Class to use a log file
 src      += ['log/logFile.cpp']
 
+# Run function
+
+src      += ['cube/run.cpp']
+
 # Class cube
 src      += ['cube/cube.cpp']
 
-# Class NGPDensity
+# Classes Density
 src      += ['cube/density/ngp.cpp']
+src      += ['cube/density/cic.cpp']
 
 # FFTW library [must be the last one]
 lib      += ['fftw3', 'm']
