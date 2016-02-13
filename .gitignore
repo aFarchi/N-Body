@@ -1,5 +1,5 @@
 # Target
-nbody
+build/*
 
 # Sconstruct options
 .sconsign.dblite

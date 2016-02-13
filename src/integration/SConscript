@@ -1,0 +1,24 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#_________________________
+# eulerIntegration Library
+#_________________________
+
+target_eulerIntegration  = 'eulerIntegration'
+source_eulerIntegration  = ['eulerIntegration.cpp']
+eulerIntegration         = env.Library(target = target_eulerIntegration, 
+                                       source = source_eulerIntegration)
+
+#___________________________________
+# symplecticEulerIntegration Library
+#___________________________________
+
+target_symplecticEulerIntegration  = 'symplecticEulerIntegration'
+source_symplecticEulerIntegration  = ['symplecticEulerIntegration.cpp']
+symplecticEulerIntegration         = env.Library(target = target_symplecticEulerIntegration, 
+                                                 source = source_symplecticEulerIntegration)
+

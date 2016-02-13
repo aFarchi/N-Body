@@ -1,0 +1,20 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#_____________________
+# stepFunction Library
+#_____________________
+
+target_stepFunction  = 'stepFunction'
+source_stepFunction  = ['stepFunction.cpp']
+libs_stepFunction    = []
+libpath_stepFunction = []
+
+stepFunction         = env.Library(target  = target_stepFunction,
+                                   source  = source_stepFunction,
+                                   LIBS    = libs_stepFunction,
+                                   LIBPATH = libpath_stepFunction)
+

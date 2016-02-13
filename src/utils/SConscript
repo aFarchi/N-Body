@@ -1,0 +1,32 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#__________________
+# indexing  Library
+#__________________
+
+target_indexing  = 'indexing'
+source_indexing  = ['indexing.cpp']
+libs_indexing    = ['modulus']
+libpath_indexing = ['../patch/']
+indexing         = env.Library(target=target_indexing, 
+                               source=source_indexing,
+                               LIBS=libs_indexing,
+                               LIBPATH=libpath_indexing)
+
+#__________________
+# indexing  Library
+#__________________
+
+target_gradient  = 'gradient'
+source_gradient  = ['gradient.cpp']
+libs_gradient    = ['indexing']
+libpath_gradient = []
+gradient         = env.Library(target=target_gradient, 
+                               source=source_gradient,
+                               LIBS=libs_gradient,
+                               LIBPATH=libpath_gradient)
+

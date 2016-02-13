@@ -1,0 +1,21 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#______________________
+# FDForce Library
+#______________________
+
+target_FDForce  = 'FDForce'
+source_FDForce  = ['FDForce.cpp']
+libs_FDForce    = ['indexing',
+                   'fftw3']
+libpath_FDForce = ['../utils/',
+                   '/usr/local/fftw/lib/']
+FDForce         = env.Library(target  = target_FDForce,
+                              source  = source_FDForce,
+                              LIBS    = libs_FDForce,
+                              LIBPATH = libpath_FDForce)
+

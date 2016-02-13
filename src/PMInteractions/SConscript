@@ -1,0 +1,21 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#______________________
+# Select subdirectories
+#______________________
+
+subdirs = []
+subdirs.append('ngp/')
+subdirs.append('cic/')
+
+#___________________
+# Execute subscripts
+#___________________
+
+for sd in subdirs:
+    env.SConscript(sd+'SConscript', dict(env=env))
+

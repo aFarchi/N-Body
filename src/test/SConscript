@@ -1,0 +1,119 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+flags = {}
+
+#____________________
+# testDensity program
+#____________________
+
+# Select density function to test
+#density = 'NGPDENSITY'
+density = 'CICDENSITY'
+flags['CPPDEFINES'] = [density]
+env.MergeFlags(flags)
+    
+target_testDensity  = 'testDensity'
+source_testDensity  = ['testDensity.cpp']
+libs_testDensity    = ['indexing',
+                       'modulus',
+                       'initializeRandom',
+                       'write',
+                       'printL']
+libpath_testDensity = ['../utils/',
+                       '../patch/',
+                       '../initialize',
+                       '../io']
+
+if 'NGP' in density:
+    libs_testDensity    += ['NGPDensity'] 
+    libpath_testDensity += ['../PMInteractions/ngp/']
+
+if 'CIC' in density:
+    libs_testDensity    += ['CICDensity'] 
+    libpath_testDensity += ['../PMInteractions/cic/']
+
+testDensity = env.Program(target  = target_testDensity,
+                          source  = source_testDensity,
+                          LIBS    = libs_testDensity,
+                          LIBPATH = libpath_testDensity)
+
+#_________________________
+# testPoissonSolve program
+#_________________________
+
+# Select density function to test
+#density = 'NGPDENSITY'
+density = 'CICDENSITY'
+flags['CPPDEFINES'] = [density]
+env.MergeFlags(flags)
+    
+target_testPoissonSolve  = 'testPoissonSolve'
+source_testPoissonSolve  = ['testPoissonSolve.cpp']
+libs_testPoissonSolve    = ['indexing',
+                            'modulus',
+                            'initializeRandom',
+                            'write',
+                            'printL',
+                            'poissonSolver',
+                            'fftw3']
+libpath_testPoissonSolve = ['../utils/',
+                            '../patch/',
+                            '../initialize',
+                            '../io',
+                            '../poissonSolve']
+
+if 'NGP' in density:
+    libs_testPoissonSolve    += ['NGPDensity'] 
+    libpath_testPoissonSolve += ['../PMInteractions/ngp/']
+
+if 'CIC' in density:
+    libs_testPoissonSolve    += ['CICDensity'] 
+    libpath_testPoissonSolve += ['../PMInteractions/cic/']
+
+testPoissonSolve = env.Program(target  = target_testPoissonSolve,
+                               source  = source_testPoissonSolve,
+                               LIBS    = libs_testPoissonSolve,
+                               LIBPATH = libpath_testPoissonSolve)
+
+#__________________
+# testForce program
+#__________________
+
+# Select density function to test
+#density = 'NGPDENSITY'
+density = 'CICDENSITY'
+flags['CPPDEFINES'] = [density]
+env.MergeFlags(flags)
+    
+target_testForce  = 'testForce'
+source_testForce  = ['testForce.cpp']
+libs_testForce    = ['indexing',
+                     'modulus',
+                     'initializeRandom',
+                     'write',
+                     'printL',
+                     'poissonSolver',
+                     'gradient',
+                     'fftw3']
+libpath_testForce = ['../utils/',
+                     '../patch/',
+                     '../initialize',
+                     '../io',
+                     '../poissonSolve']
+
+if 'NGP' in density:
+    libs_testForce    += ['NGPDensity'] 
+    libpath_testForce += ['../PMInteractions/ngp/']
+
+if 'CIC' in density:
+    libs_testForce    += ['CICDensity'] 
+    libpath_testForce += ['../PMInteractions/cic/']
+
+testForce = env.Program(target  = target_testForce,
+                        source  = source_testForce,
+                        LIBS    = libs_testForce,
+                        LIBPATH = libpath_testForce)
+

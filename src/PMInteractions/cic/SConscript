@@ -1,0 +1,34 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#___________________
+# CICDensity Library
+#___________________
+
+target_CICDensity  = 'CICDensity'
+source_CICDensity  = ['CICDensity.cpp']
+libs_CICDensity    = ['indexing',
+                      'm']
+libpath_CICDensity = ['../../utils/']
+CICDensity         = env.Library(target  = target_CICDensity,
+                                 source  = source_CICDensity,
+                                 LIBS    = libs_CICDensity,
+                                 LIBPATH = libpath_CICDensity)
+
+#___________________
+# CICForce Library
+#___________________
+
+target_CICForce  = 'CICForce'
+source_CICForce  = ['CICForce.cpp']
+libs_CICForce    = ['indexing',
+                    'm']
+libpath_CICForce = ['../../utils/']
+CICForce         = env.Library(target  = target_CICForce,
+                               source  = source_CICForce,
+                               LIBS    = libs_CICForce,
+                               LIBPATH = libpath_CICForce)
+

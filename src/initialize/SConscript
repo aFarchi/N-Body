@@ -1,0 +1,19 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#_________________________
+# InitializeRandom Library
+#_________________________
+
+target_initializeRandom  = 'initializeRandom'
+source_initializeRandom  = ['initializeRandom.cpp']
+libs_initializeRandom    = []
+libpath_initializeRandom = []
+initializeRandom         = env.Library(target  = target_initializeRandom,
+                                       source  = source_initializeRandom,
+                                       LIBS    = libs_initializeRandom,
+                                       LIBPATH = libpath_initializeRandom)
+

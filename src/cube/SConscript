@@ -1,0 +1,37 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#_____________
+# cube Library
+#_____________
+
+target_cube  = 'cube'
+source_cube  = ['cube.cpp']
+libs_cube    = ['patch',
+                'write',
+                'fftw3']
+libpath_cube = ['../patch/',
+                '../io/']
+
+cube         = env.Library(target  = target_cube,
+                           source  = source_cube,
+                           LIBS    = libs_cube,
+                           LIBPATH = libpath_cube)
+
+#____________
+# run Library
+#____________
+
+target_run  = 'run'
+source_run  = ['run.cpp']
+libs_run    = ['patch']
+libpath_run = ['../patch/']
+
+run         = env.Library(target  = target_run,
+                          source  = source_run,
+                          LIBS    = libs_run,
+                          LIBPATH = libpath_run)
+

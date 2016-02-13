@@ -1,0 +1,34 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#______________
+# write Library
+#______________
+
+target_write  = 'write'
+source_write  = ['write.cpp']
+libs_write    = ['fftw3']
+libpath_write = []
+write         = env.Library(target = target_write, 
+                           source  = source_write,
+                           LIBS    = libs_write,
+                           LIBPATH = libpath_write)
+
+#_______________
+# printL Library
+#_______________
+
+target_printL = 'printL'
+source_printL = ['printL.cpp']
+printL        = env.Library(target=target_printL, source=source_printL)
+
+#________________
+# LogFile Library
+#________________
+
+target_logFile = 'logFile'
+source_logFile = ['logFile.cpp']
+logFile        = env.Library(target=target_logFile, source=source_logFile)

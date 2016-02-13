@@ -1,0 +1,21 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#______________________
+# poissonSolver Library
+#______________________
+
+target_poissonSolver  = 'poissonSolver'
+source_poissonSolver  = ['poissonSolver.cpp']
+libs_poissonSolver    = ['indexing',
+                         'm',
+                         'fftw3']
+libpath_poissonSolver = ['../utils/']
+poissonSolver         = env.Library(target  = target_poissonSolver,
+                                    source  = source_poissonSolver,
+                                    LIBS    = libs_poissonSolver,
+                                    LIBPATH = libpath_poissonSolver)
+

@@ -1,71 +1,75 @@
-#____________
-# Environment
-#____________
+class BuildOptions:
+    pass
 
-env = DefaultEnvironment()
+#______________
+# Configuration
+#______________
+
+debug_options           = BuildOptions()
+debug_options.build     = True
+debug_options.directory = 'debug/'
+
+release_options           = BuildOptions()
+release_options.build     = False
+release_options.directory = 'release/'
+
+#___________________
+# Common environment
+#___________________
+
+common_env = DefaultEnvironment()
 
 # C++ compiler
-env.Replace(CXX='/usr/gcc-5.1.0/bin/g++-5.1.0')
+common_env.Replace(CXX='/usr/local/bin/g++')
 
 # Flags
-flags = {}
-flags['CCFLAGS'] = ['-Wall', '-Wextra']
+common_flags            = {}
+common_flags['CCFLAGS'] = ['-Wall', '-Wextra']
+common_flags['VERSION'] = [1]
 
-env.MergeFlags(flags)
+common_env.MergeFlags(common_flags)
 
-#__________________________
-# Preprocessors definitions
-#__________________________
+#__________________
+# Debug environment
+#__________________
 
+debug_env         = common_env.Clone()
+debug_env.options = debug_options
 
-cpp_defines  = []
-#cpp_defines += ['DEN_NGP']
-cpp_defines += ['DEN_CIC']
-env.Append(CPPDEFINES=cpp_defines)
+# Flags
+
+debug_flags               = {}
+debug_flags['CPPDEFINES'] = ['DEBUG']
+
+debug_env.MergeFlags(debug_flags)
+
+# Building directory
+
+debug_env.VariantDir('build/'+debug_env.options.directory, 'src', duplicate=0)
+
+#____________________
+# Release environment
+#____________________
+
+release_env         = common_env.Clone()
+release_env.options = release_options
+
+# Flags
+
+release_flags               = {}
+release_flags['CPPDEFINES'] = ['RELEASE']
+
+release_env.MergeFlags(release_flags)
+
+# Building directory
+
+release_env.VariantDir('build/'+release_env.options.directory, 'src', duplicate=0)
 
 #______________
-# Target N-BODY
+# Build targets
 #______________
 
-# Main target
-tgt       = 'nbody'
-src       = ['main.cpp']
-lib       = []
-lib_path  = []
-cpp_path  = []
+for env in [debug_env, release_env]:
+    if env.options.build:
+        env.SConscript('build/'+env.options.directory+'SConscript', dict(env=env))
 
-#__________
-# Libraries
-#__________
-
-# Small Patch for strings
-src      += ['patch/toString.cpp']
-
-# Class to use a log file
-src      += ['log/logFile.cpp']
-
-# Run function
-
-src      += ['cube/run.cpp']
-
-# Class cube
-src      += ['cube/cube.cpp']
-
-# Classes Density
-src      += ['cube/density/ngp.cpp']
-src      += ['cube/density/cic.cpp']
-
-# FFTW library [must be the last one]
-lib      += ['fftw3', 'm']
-lib_path += ['/usr/local/fftw/lib/']
-cpp_path += ['/usr/local/fftw/include/']
-
-#___________________________
-# Program N-BODY from target
-#___________________________
-
-nbody     = env.Program(target=tgt, 
-                        source=src,
-                        LIBS=lib,
-                        LIBPATH=lib_path,
-                        CPPPATH=cpp_path)

@@ -1,0 +1,19 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#______________________
+# sendParticles Library
+#______________________
+
+target_sendParticles  = 'sendParticles'
+source_sendParticles  = ['sendParticles.cpp']
+libs_sendParticles    = ['modulus']
+libpath_sendParticles = ['../utils/']
+sendParticles         = env.Library(target  = target_sendParticles,
+                                    source  = source_sendParticles,
+                                    LIBS    = libs_sendParticles,
+                                    LIBPATH = libpath_sendParticles)
+

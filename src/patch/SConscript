@@ -1,0 +1,22 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#_________________
+# toString Library
+#_________________
+
+target_toString = 'toString'
+source_toString = ['toString.cpp']
+toString        = env.Library(target=target_toString, source=source_toString)
+
+#________________
+# modulus Library
+#________________
+
+target_modulus = 'modulus'
+source_modulus = ['modulus.cpp']
+modulus        = env.Library(target=target_modulus, source=source_modulus)
+

@@ -1,0 +1,90 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#______________________
+# Select subdirectories
+#______________________
+
+subdirs = []
+subdirs.append('patch/')
+subdirs.append('utils/')
+subdirs.append('integration/')
+subdirs.append('initialize/')
+subdirs.append('io/')
+subdirs.append('PMInteractions/')
+subdirs.append('poissonSolve/')
+subdirs.append('derivateForce/')
+subdirs.append('sendParticles/')
+subdirs.append('stepFunction/')
+subdirs.append('cube/')
+#subdirs.append('test/')
+
+#___________________
+# Execute subscripts
+#___________________
+
+for sd in subdirs:
+    env.SConscript(sd+'SConscript', dict(env=env))
+
+#______________
+# Target N-BODY
+#______________
+
+# Select density function
+#density = 'NGPDENSITY'
+density = 'CICDENSITY'
+
+# Select integration scheme
+#integration = 'EULERINTEGRATION'
+integration = 'SYMPLECTICEULERINTEGRATION'
+
+# Select force function
+#force = 'NGPFORCE'
+force = 'CICFORCE'
+
+flags = {}
+flags['CPPDEFINES'] = [density, integration, force]
+env.MergeFlags(flags)
+
+target_nbody  = 'nbody'
+source_nbody  = 'main.cpp'
+libs_nbody    = ['initializeRandom',
+                 'NGPDensity',
+                 'CICDensity',
+                 'poissonSolver',
+                 'eulerIntegration',
+                 'symplecticEulerIntegration',
+                 'NGPForce',
+                 'CICForce',
+                 'FDForce',
+                 'sendParticles',
+                 'stepFunction',
+                 'cube',
+                 'logFile',
+                 'run',
+                 'write',
+                 'modulus',
+                 'indexing',
+                 'gradient',
+                 'fftw3']
+libpath_nbody = ['initialize/',
+                 'PMInteractions/ngp/',
+                 'PMInteractions/cic/',
+                 'poissonSolve/',
+                 'integration/',
+                 'derivateForce/',
+                 'sendParticles/',
+                 'stepFunction/',
+                 'cube/',
+                 'io/',
+                 'patch/',
+                 'utils/']
+
+nbody         = env.Program(target  = target_nbody,
+                            source  = source_nbody,
+                            LIBS    = libs_nbody,
+                            LIBPATH = libpath_nbody)
+

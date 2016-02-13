@@ -1,0 +1,34 @@
+#___________________________________________
+# Import Environment from above-level script
+#___________________________________________
+
+Import('env')
+
+#___________________
+# NGPDensity Library
+#___________________
+
+target_NGPDensity  = 'NGPDensity'
+source_NGPDensity  = ['NGPDensity.cpp']
+libs_NGPDensity    = ['indexing',
+                      'm']
+libpath_NGPDensity = ['../../utils/']
+NGPDensity         = env.Library(target  = target_NGPDensity,
+                                 source  = source_NGPDensity,
+                                 LIBS    = libs_NGPDensity,
+                                 LIBPATH = libpath_NGPDensity)
+
+#_________________
+# NGPForce Library
+#_________________
+
+target_NGPForce  = 'NGPForce'
+source_NGPForce  = ['NGPForce.cpp']
+libs_NGPForce    = ['indexing',
+                    'm']
+libpath_NGPForce = ['../../utils/']
+NGPForce         = env.Library(target  = target_NGPForce,
+                               source  = source_NGPForce, 
+                               LIBS    = libs_NGPForce, 
+                               LIBPATH = libpath_NGPForce)
+
