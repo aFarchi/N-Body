@@ -85,7 +85,7 @@ int main(int argc, char* argv[])
     typedef run::Run<Cube, Log> Run ;
 
     // parameters
-    const int         nParticles = 100 ;
+    const int         nParticles = 2 ;
     const int         nGrid      = 32 ;
     const double      cubeLength = 100.0 ;
     const double      deltaT     = 1.0e3 ;
